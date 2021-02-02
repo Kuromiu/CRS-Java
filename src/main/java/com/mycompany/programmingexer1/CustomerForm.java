@@ -18,9 +18,11 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class CustomerForm extends javax.swing.JFrame {
-    int id = 0; // Number of customers
+    int id = 0; // Number of customers. Global Index variable
     String[][] cust = new String[10][7]; //Creates a 2d array for item. 10 max customers.
     ArrayList<Integer> deletedIDs = new ArrayList<Integer>(); //Keep track of deleted ID numbers
+    ArrayList<Integer> dataStore = new ArrayList<Integer>(); //stores all data
+    int index; //row variable
     /**
      * Creates new form CustomerForm
      */
@@ -323,6 +325,16 @@ public class CustomerForm extends javax.swing.JFrame {
         String[] item = {cId.getText(), cName.getText(), cAddress.getText(), cContactNo.getText(), cEmail.getText(), cBirthdate.getText(), (String)cGender.getSelectedItem()}; // Gets values from text fields and assigns them to this array
         tblmodel.addRow(item); // Creates a row for the item array to the table
         
+        /*try{
+            for(int y = 0; y < 7; y++) { // Assigns the information to the 2d array cust[][], item contains the information of each row
+                cust[id][y] = item[y];
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }*/
+        
+        //rest is by me
         try{
             for(int y = 0; y < 7; y++) { // Assigns the information to the 2d array cust[][], item contains the information of each row
                 cust[id][y] = item[y];
@@ -331,34 +343,27 @@ public class CustomerForm extends javax.swing.JFrame {
         catch (Exception e) {
             System.out.println("Exception: " + e);
         }
+        id++;
         
-        for(int x = 0; x < cust.length; x++) {
-            for(int y = 0; y < cust[0].length; y++) {
-                System.out.print(cust[x][y] + " ");
-            }
-            System.out.print('\n');
-        }
-        
-        System.out.println(deletedIDs);
-        
-        if (deletedIDs.size() == 0) {
-            id++;
-        }
-        else {
+        if (deletedIDs.size() > 0) {
+            id = deletedIDs.get(0);
             try {
-                for (int i = 0; i < cust.length; i++) { //Rows
-                    for (int j = 0; j < cust[0].length; j++) { //Deleted Id index
-                        if (Integer.parseInt(cust[i][0]) < deletedIDs.get(j) && deletedIDs.get(j) < Integer.parseInt(cust[i+1][0])) {
-                            tblmodel.setValueAt(Integer.parseInt(cId.getText())+1, i, 0);
-                        }
-                        else
-                            id++;
-                    }
+                for(int y = 1; y < cust[id].length; y++) { // Assigns the information to the 2d array cust[][], item contains the information of each row
+                    cust[id][y] = item[y];
                 }
             }
             catch (Exception e) {
                 System.out.println("Note: " + e);
             }
+            deletedIDs.remove(0);
+        }
+        
+        //for debugging purposes
+        for(int x = 0; x < cust.length; x++) {
+            for(int y = 0; y < cust[0].length; y++) {
+                System.out.print(cust[x][y] + " ");
+            }
+            System.out.print('\n');
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -420,10 +425,12 @@ public class CustomerForm extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Deletes selected row
         DefaultTableModel tblmodel = (DefaultTableModel) jTable1.getModel();
-        int sRI = jTable1.getSelectedRow();
-        tblmodel.removeRow(sRI);
-        deletedIDs.add(sRI);
+        //int rowToDelete = jTable1.getSelectedRow() + 1; //variable to store cust row index
+        tblmodel.removeRow(jTable1.getSelectedRow());
+        int IDNo = Integer.parseInt(cId.getText());
+        deletedIDs.add(IDNo);
         Collections.sort(deletedIDs);
+        System.out.println(deletedIDs.get(0));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void cBirthdateKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cBirthdateKeyReleased
