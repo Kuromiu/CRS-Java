@@ -108,10 +108,7 @@ public class Products extends javax.swing.JFrame {
 
         productsTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "PType", "PDesc", "Supplier", "Tot.Quantity", "Orders"
@@ -126,10 +123,7 @@ public class Products extends javax.swing.JFrame {
 
         productsTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "PID", "PType", "PDesc", "Supplier", "Quantity", "Cost", "Date Received", "Orders"
@@ -258,30 +252,28 @@ public class Products extends javax.swing.JFrame {
 
     private void newProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProdBtnActionPerformed
         DefaultTableModel productsTable2d = (DefaultTableModel) productsTable1.getModel();
-        
-        if(prodID == 0) {
-            productsTable2d.setRowCount(0);
-        }
-        
         String[] products = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText()};
-        productsTable2d.addRow(products);
         
-        //Assigns the information to the cust array
-        try {
-            for (int x = 0; x < 7; x++) { 
+        //Assigns the information to the products 2d array
+        for (int x = 0; x < 5; x++) { 
                 products2darray[prodID][x] = products[x];
             }
+
+        //Adds customers to table
+        for (int i = 0; i < products2darray.length; i++) {
+            if (products2darray[i][0] != null) {
+                productsTable2d.addRow(products2darray[i]);
+            }
         }
-        catch (Exception e) {
-            System.out.println("Exception: " + e);
+        
+        //Prints the cust array
+        for (int i = 0; i < products2darray.length; i++) {
+            System.out.println("\n");
+            if (products2darray[i][0] != null) {
+                System.out.println(Arrays.toString(products2darray[i]));
+            }
         }
         prodID++;
-        for(int x = 0; x < products2darray.length; x++) {
-            for(int y = 0; y < products2darray.length; y++) {
-                System.out.println(products2darray[x][y] + " ");
-            }
-            System.out.println(" ");
-        }
         pID.setText(String.valueOf(prodID));
     }//GEN-LAST:event_newProdBtnActionPerformed
 
