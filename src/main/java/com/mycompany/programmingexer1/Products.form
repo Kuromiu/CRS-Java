@@ -78,7 +78,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel6" min="-2" pref="13" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="qtyStockIn" min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="qty2" min="-2" pref="39" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -122,7 +122,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="qty" alignment="3" max="32767" attributes="0"/>
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="qtyStockIn" alignment="3" max="32767" attributes="0"/>
+                          <Component id="qty2" alignment="3" max="32767" attributes="0"/>
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -228,9 +228,9 @@
     </Component>
     <Component class="javax.swing.JTextField" name="dateReceived">
     </Component>
-    <Component class="javax.swing.JTextField" name="qtyStockIn">
+    <Component class="javax.swing.JTextField" name="qty2">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="qtyStockInActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="qty2ActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -323,6 +323,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="productsTable1MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

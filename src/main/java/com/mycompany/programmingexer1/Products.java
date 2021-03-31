@@ -5,6 +5,7 @@
  */
 package com.mycompany.programmingexer1;
 
+import java.util.Arrays;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,7 +14,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Products extends javax.swing.JFrame {
     String[][] products2darray = new String[10][5];
-    int prodID = 0;
+    String[][][] products3darray = new String[10][10][5];
+    int prodID;
     /**
      * Creates new form Products
      */
@@ -47,7 +49,7 @@ public class Products extends javax.swing.JFrame {
         qty = new javax.swing.JTextField();
         totalCost = new javax.swing.JTextField();
         dateReceived = new javax.swing.JTextField();
-        qtyStockIn = new javax.swing.JTextField();
+        qty2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -96,9 +98,9 @@ public class Products extends javax.swing.JFrame {
             }
         });
 
-        qtyStockIn.addActionListener(new java.awt.event.ActionListener() {
+        qty2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                qtyStockInActionPerformed(evt);
+                qty2ActionPerformed(evt);
             }
         });
 
@@ -115,6 +117,11 @@ public class Products extends javax.swing.JFrame {
                 "ID", "PType", "PDesc", "Supplier", "Tot.Quantity", "Orders"
             }
         ));
+        productsTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productsTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(productsTable1);
 
         productsTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -194,7 +201,7 @@ public class Products extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(qtyStockIn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(qty2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -226,7 +233,7 @@ public class Products extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(qty)
                             .addComponent(jLabel7)
-                            .addComponent(qtyStockIn)
+                            .addComponent(qty2)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -250,12 +257,12 @@ public class Products extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProdBtnActionPerformed
-        methodClass method_class = new methodClass();
         DefaultTableModel productsTable2d = (DefaultTableModel) productsTable1.getModel();
         
         if(prodID == 0) {
             productsTable2d.setRowCount(0);
         }
+        
         String[] products = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText()};
         productsTable2d.addRow(products);
         
@@ -282,14 +289,24 @@ public class Products extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_stockInBtnActionPerformed
 
-    private void qtyStockInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtyStockInActionPerformed
+    private void qty2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qty2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_qtyStockInActionPerformed
+    }//GEN-LAST:event_qty2ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     pID.setEditable(false);
     pID.setText("0");
     }//GEN-LAST:event_formWindowOpened
+
+    private void productsTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTable1MouseClicked
+        int[] selectRow = productsTable1.getSelectedRows(); // array that stores selected row's data
+        // Displays the selected row's data to text fields
+        pID.setText(productsTable1.getValueAt(selectRow[0], 0).toString());
+        pDesc.setText(productsTable1.getValueAt(selectRow[0], 1).toString());
+        pType.setText(productsTable1.getValueAt(selectRow[0], 2).toString());
+        supplier.setText(productsTable1.getValueAt(selectRow[0], 3).toString());
+        qty.setText(productsTable1.getValueAt(selectRow[0], 4).toString());
+    }//GEN-LAST:event_productsTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -348,7 +365,7 @@ public class Products extends javax.swing.JFrame {
     private javax.swing.JTable productsTable1;
     private javax.swing.JTable productsTable2;
     private javax.swing.JTextField qty;
-    private javax.swing.JTextField qtyStockIn;
+    private javax.swing.JTextField qty2;
     private javax.swing.JButton stockInBtn;
     private javax.swing.JTextField supplier;
     private javax.swing.JTextField totalCost;
