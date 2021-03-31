@@ -7,6 +7,7 @@ package com.mycompany.programmingexer1;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,8 +22,7 @@ public class CustomerForm extends javax.swing.JFrame {
     int id = 0; // Number of customers. Global Index variable
     String[][] cust = new String[10][7]; //Creates a 2d array for item. 10 max customers.
     ArrayList<Integer> deletedIDs = new ArrayList<Integer>(); //Keep track of deleted ID numbers
-    ArrayList<Integer> dataStore = new ArrayList<Integer>(); //stores all data
-    int index; //row variable
+
     /**
      * Creates new form CustomerForm
      */
@@ -319,57 +319,50 @@ public class CustomerForm extends javax.swing.JFrame {
         }
         
         DefaultTableModel tblmodel = (DefaultTableModel) jTable1.getModel(); // Gets the table object
-        if (id == 0) // Check if table is empty
-            tblmodel.setRowCount(0); // Clears/empties table contents
-        
-        String[] item = {cId.getText(), cName.getText(), cAddress.getText(), cContactNo.getText(), cEmail.getText(), cBirthdate.getText(), (String)cGender.getSelectedItem()}; // Gets values from text fields and assigns them to this array
-        tblmodel.addRow(item); // Creates a row for the item array to the table
-        
-        /*try{
-            for(int y = 0; y < 7; y++) { // Assigns the information to the 2d array cust[][], item contains the information of each row
-                cust[id][y] = item[y];
+        tblmodel.setRowCount(0); // Clears/empties table contents
+        int currentID;//Variable containing ID of current customer
+            //Prevents id from incrementing if there is a deleted ID
+            if (deletedIDs.size() == 0) {
+                id++; //increment ID counter
+                currentID = id;
+            } else {
+                //Sets the ID for the customer as deleted ID
+                currentID = deletedIDs.get(0);
+                //Removes deleted ID from deletedIDs
+                deletedIDs.remove(0);
+            }
+        String[] item = {String.valueOf(currentID), cName.getText(), cAddress.getText(), cContactNo.getText(), cEmail.getText(), cBirthdate.getText(), (String)cGender.getSelectedItem()}; // Gets values from text fields and assigns them to this array
+        //Assigns the information to the cust array
+        for (int y = 0; y < 7; y++) { 
+            cust[Integer.valueOf(item[0]) - 1][y] = item[y];
+        }
+            
+        //Adds customers to table
+        for (int i = 0; i < cust.length; i++) {
+            if (cust[i][0] != null) {
+                tblmodel.addRow(cust[i]);
             }
         }
-        catch (Exception e) {
-            System.out.println("Exception: " + e);
-        }*/
         
-        //rest is by me
-        try{
-            for(int y = 0; y < 7; y++) { // Assigns the information to the 2d array cust[][], item contains the information of each row
-                cust[id][y] = item[y];
+        //Prints the cust array
+        for (int i = 0; i < cust.length; i++) {
+            System.out.println("\n");
+            if (cust[i][0] != null) {
+                System.out.println(Arrays.toString(cust[i]));
             }
         }
-        catch (Exception e) {
-            System.out.println("Exception: " + e);
-        }
-        id++;
-        
-        if (deletedIDs.size() > 0) {
-            id = deletedIDs.get(0);
-            try {
-                for(int y = 1; y < cust[id].length; y++) { // Assigns the information to the 2d array cust[][], item contains the information of each row
-                    cust[id][y] = item[y];
-                }
-            }
-            catch (Exception e) {
-                System.out.println("Note: " + e);
-            }
-            deletedIDs.remove(0);
-        }
-        
-        //for debugging purposes
-        for(int x = 0; x < cust.length; x++) {
-            for(int y = 0; y < cust[0].length; y++) {
-                System.out.print(cust[x][y] + " ");
-            }
-            System.out.print('\n');
+            
+        //Prepares ID field for next entry based on next free ID;
+        if (deletedIDs.size() == 0) {
+            cId.setText(String.valueOf(id + 1));
+        } else {
+            cId.setText(String.valueOf(deletedIDs.get(0)));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Products form = new Products();
-        form.setVisible(true);
+        Products p_form = new Products();
+        p_form.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void cIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cIdActionPerformed
@@ -423,14 +416,37 @@ public class CustomerForm extends javax.swing.JFrame {
     }//GEN-LAST:event_cEmailActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Deletes selected row
-        DefaultTableModel tblmodel = (DefaultTableModel) jTable1.getModel();
-        //int rowToDelete = jTable1.getSelectedRow() + 1; //variable to store cust row index
-        tblmodel.removeRow(jTable1.getSelectedRow());
-        int IDNo = Integer.parseInt(cId.getText());
-        deletedIDs.add(IDNo);
-        Collections.sort(deletedIDs);
-        System.out.println(deletedIDs.get(0));
+        //For deletion
+        int rows = jTable1.getSelectedRowCount();
+        if (rows > 0) {//Checks if rows are selected
+            DefaultTableModel tblmodel = (DefaultTableModel) jTable1.getModel();//Gets table object
+            
+            for (int i = 0; i < rows; i++) {//Iterates for each selected row
+                int IDNo = Integer.valueOf(String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0)));//Sets IDNo to ID of current row
+                
+                tblmodel.removeRow(jTable1.getSelectedRow());//Removes the row
+                
+                deletedIDs.add(IDNo);//Adds deleted ID to deletedIDs
+
+                //Sets all values to null for the selected customer in cust array
+                for (int y = 0; y < 7; y++) {
+                    cust[IDNo - 1][y] = null;
+                }
+            }
+            Collections.sort(deletedIDs);
+            cId.setText(String.valueOf(deletedIDs.get(0))); //Resets ID field to next free ID
+            
+            //Prints deletedIDs
+            System.out.println("deletedIDs : " + deletedIDs);
+            
+            if (rows == 1) {
+                messagebox("Customer has been deleted.", "Deleted");
+            } else {
+                messagebox(rows + " Customers have been deleted.", "Deleted");
+            }
+        } else {
+            messagebox("Cannot delete customers unless one or more are selected.", "Select a customer to delete");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void cBirthdateKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cBirthdateKeyReleased
@@ -501,17 +517,47 @@ public class CustomerForm extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Update selected row
-        DefaultTableModel tblmodel = (DefaultTableModel) jTable1.getModel();
-        int i = jTable1.getSelectedRow();
-        if (i >= 0) {
-            tblmodel.setValueAt(cId.getText(), i, 0);
-            tblmodel.setValueAt(cName.getText(), i, 1);
-            tblmodel.setValueAt(cAddress.getText(), i, 2);
-            tblmodel.setValueAt(cContactNo.getText(), i, 3);
-            tblmodel.setValueAt(cEmail.getText(), i, 4);
-            tblmodel.setValueAt(cBirthdate.getText(), i, 5);
-            tblmodel.setValueAt(cGender.getSelectedItem(), i, 6);
-        }   
+        if (jTable1.getSelectedRowCount() == 1) {//Checks if only 1 row is selected
+            if (cName.getText().length() == 0 || cEmail.getText().length() == 0 || cBirthdate.getText().length() == 0 || cAddress.getText().length() == 0 || cContactNo.getText().length() == 0) {//check if incomplete
+                messagebox("Please fill in all the fields.", "Incomplete");
+            } else if (emailChecker == false) { //Check if invalid email format
+                messagebox("Please enter a valid Email.", "Email not valid");
+            } else if (minorChecker == true) { //Check if minor
+                messagebox("Minors are not accepted", "Minor");
+            } else { //Valid email and not a minor
+                DefaultTableModel tblmodel = (DefaultTableModel) jTable1.getModel();//Gets table object
+                int i = jTable1.getSelectedRow();//Row number of selected row
+                
+                //Updates the table row
+                tblmodel.setValueAt(cName.getText(), i, 1);
+                tblmodel.setValueAt(cAddress.getText(), i, 2);
+                tblmodel.setValueAt(cContactNo.getText(), i, 3);
+                tblmodel.setValueAt(cEmail.getText(), i, 4);
+                tblmodel.setValueAt(cBirthdate.getText(), i, 5);
+                tblmodel.setValueAt(cGender.getSelectedItem(), i, 6);
+                
+                int IDNo = Integer.valueOf(String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0)));//Sets IDNo to ID of current row
+                //Updates each value of cust array to new value
+                for (int j = 1; j < cust[IDNo].length; j++) {
+                    cust[IDNo][j] = jTable1.getValueAt(i, j).toString();
+                }
+                
+                jTable1.clearSelection();//Deselect selected row
+                
+                //Prepares ID field for next entry based on next free ID;
+                if (deletedIDs.size() == 0) {
+                    cId.setText(String.valueOf(id + 1));
+                } else {
+                    cId.setText(String.valueOf(deletedIDs.get(0)));
+                }
+                
+                messagebox("Customer has been updated", "Update successful");
+            }  
+        } else if (jTable1.getSelectedRowCount() > 1) {//If more than 1 row selected
+            messagebox("Cannot select more than 1 row to update.", "Select only 1 row");
+        } else {//If no rows selected
+            messagebox("Select a row to update.", "Select only a row");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
     private void messagebox (String msg, String titlebar) {
         JOptionPane.showMessageDialog(null, msg, titlebar, JOptionPane.INFORMATION_MESSAGE);
