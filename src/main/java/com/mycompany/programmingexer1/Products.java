@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Products extends javax.swing.JFrame {
     String[][] products2darray = new String[10][5];
-    String[][][] products3darray = new String[10][10][5];
+    String[][][] products3darray = new String[10][10][7];
     int prodID;
     /**
      * Creates new form Products
@@ -98,6 +98,12 @@ public class Products extends javax.swing.JFrame {
             }
         });
 
+        totalCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalCostActionPerformed(evt);
+            }
+        });
+
         qty2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 qty2ActionPerformed(evt);
@@ -129,6 +135,11 @@ public class Products extends javax.swing.JFrame {
                 "PID", "PType", "PDesc", "Supplier", "Quantity", "Cost", "Date Received", "Orders"
             }
         ));
+        productsTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productsTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(productsTable2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -252,33 +263,46 @@ public class Products extends javax.swing.JFrame {
 
     private void newProdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProdBtnActionPerformed
         DefaultTableModel productsTable2d = (DefaultTableModel) productsTable1.getModel();
-        String[] products = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText()};
+        productsTable2d.setRowCount(0);
+        String[] products2d = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText()};
         
         //Assigns the information to the products 2d array
         for (int x = 0; x < 5; x++) { 
-                products2darray[prodID][x] = products[x];
+                products2darray[prodID][x] = products2d[x];
             }
-
-        //Adds customers to table
+        //Adds products to 2d table
         for (int i = 0; i < products2darray.length; i++) {
             if (products2darray[i][0] != null) {
                 productsTable2d.addRow(products2darray[i]);
             }
         }
         
-        //Prints the cust array
-        for (int i = 0; i < products2darray.length; i++) {
-            System.out.println("\n");
-            if (products2darray[i][0] != null) {
-                System.out.println(Arrays.toString(products2darray[i]));
+        //System.out.println(Arrays.deepToString(products2darray));
+        
+        DefaultTableModel productsTable3d = (DefaultTableModel) productsTable2.getModel();
+        productsTable3d.setRowCount(0);
+        String[] products3d = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText(), totalCost.getText(), dateReceived.getText()};
+        
+        //Assigns the information to the products 3d array
+        for (int x = 0; x < 10; x++) { 
+            for (int y = 0; y < 7; y++) { 
+                products3darray[prodID][0][y] = products3d[y];
             }
         }
+        //Adds products to 3d table
+        
+        
+        System.out.println(Arrays.deepToString(products3darray));
+        
         prodID++;
         pID.setText(String.valueOf(prodID));
     }//GEN-LAST:event_newProdBtnActionPerformed
 
     private void stockInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockInBtnActionPerformed
-        // TODO add your handling code here:
+        for(int i = 0; i < products3darray.length; i++)
+            if (pType.getText().equals(products3darray[i][0][1])) {
+                //get id number at products2darray[i][0] and type at products2darray[i][1] to a 1d array then recreate the 3d list
+            }
     }//GEN-LAST:event_stockInBtnActionPerformed
 
     private void qty2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qty2ActionPerformed
@@ -294,11 +318,34 @@ public class Products extends javax.swing.JFrame {
         int[] selectRow = productsTable1.getSelectedRows(); // array that stores selected row's data
         // Displays the selected row's data to text fields
         pID.setText(productsTable1.getValueAt(selectRow[0], 0).toString());
-        pDesc.setText(productsTable1.getValueAt(selectRow[0], 1).toString());
-        pType.setText(productsTable1.getValueAt(selectRow[0], 2).toString());
+        pType.setText(productsTable1.getValueAt(selectRow[0], 1).toString());
+        pDesc.setText(productsTable1.getValueAt(selectRow[0], 2).toString());
         supplier.setText(productsTable1.getValueAt(selectRow[0], 3).toString());
         qty.setText(productsTable1.getValueAt(selectRow[0], 4).toString());
+        totalCost.setText("");
+        dateReceived.setText("");
+        //Display selected row to 2nd table
+        DefaultTableModel productsTable3d = (DefaultTableModel) productsTable2.getModel();
+        productsTable3d.setRowCount(0);
+        for (int i = 0; i < products3darray.length; i++) {
+            for (int j = 0; j < products3darray[0].length; j++) {
+                if (products3darray[i][j][0] != null) {
+                    if (products3darray[i][j][0].equals(pID.getText())) {
+                        productsTable3d.addRow(products3darray[i][j]);
+                    }
+                        
+                }
+            }
+        }
     }//GEN-LAST:event_productsTable1MouseClicked
+
+    private void totalCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalCostActionPerformed
+
+    private void productsTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTable2MouseClicked
+        int[] selectRow = productsTable2.getSelectedRows(); // array that stores selected row's data
+    }//GEN-LAST:event_productsTable2MouseClicked
 
     /**
      * @param args the command line arguments

@@ -225,6 +225,9 @@
     <Component class="javax.swing.JTextField" name="qty">
     </Component>
     <Component class="javax.swing.JTextField" name="totalCost">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="totalCostActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="dateReceived">
     </Component>
@@ -398,6 +401,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="productsTable2MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
