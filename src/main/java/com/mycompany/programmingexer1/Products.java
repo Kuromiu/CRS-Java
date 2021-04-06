@@ -16,6 +16,12 @@ public class Products extends javax.swing.JFrame {
     String[][] products2darray = new String[10][5];
     String[][][] products3darray = new String[10][10][7];
     int prodID;
+    
+    public String[][][] array3d(String[] info) {
+        
+        String[][][] placeholder = new String[1][1][1];
+        return placeholder;
+    }
     /**
      * Creates new form Products
      */
@@ -300,19 +306,21 @@ public class Products extends javax.swing.JFrame {
         DefaultTableModel productsTable2d = (DefaultTableModel) productsTable1.getModel();
         productsTable2d.setRowCount(0);
         String[] products3d = {pID.getText(), pType.getText(), pDesc.getText(), supplier.getText(), qty2.getText(), totalCost.getText(), dateReceived.getText()};
-        int row2d = 1;
+        
         for(int i = 0; i < products3darray.length; i++) {
             if (pID.getText().equals(products3darray[i][0][0])) {
-                for(int j = 0; j < products3darray[0][0].length; j++) {
-                    products3darray[i][row2d][j] = products3d[j]; //flawed, create new loop that checks if row is empty
-                    
+                for(int j = 0; j < products3darray[0].length; j++) {
+                    if (products3darray[i][j][0] == null){
+                        for(int k = 0; k < products3darray[0][0].length; k++)
+                        products3darray[i][j][k] = products3d[k];
+                        break;
+                    }  
                 }
             }
-            
         }
-        row2d++;
             
         System.out.println(Arrays.deepToString(products3darray));
+      
         // for table assignment
         DefaultTableModel productsTable3d = (DefaultTableModel) productsTable2.getModel();
         productsTable3d.setRowCount(0);
@@ -322,7 +330,6 @@ public class Products extends javax.swing.JFrame {
                     if (products3darray[i][j][0].equals(pID.getText())) {
                         productsTable3d.addRow(products3darray[i][j]);
                     }
-                        
                 }
             }
         }
