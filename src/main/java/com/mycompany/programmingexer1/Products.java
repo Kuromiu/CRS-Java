@@ -289,8 +289,6 @@ public class Products extends javax.swing.JFrame {
                 products3darray[prodID][0][y] = products3d[y];
             }
         }
-        //Adds products to 3d table
-        
         
         System.out.println(Arrays.deepToString(products3darray));
         
@@ -299,10 +297,43 @@ public class Products extends javax.swing.JFrame {
     }//GEN-LAST:event_newProdBtnActionPerformed
 
     private void stockInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockInBtnActionPerformed
-        for(int i = 0; i < products3darray.length; i++)
-            if (pType.getText().equals(products3darray[i][0][1])) {
-                //get id number at products2darray[i][0] and type at products2darray[i][1] to a 1d array then recreate the 3d list
+        DefaultTableModel productsTable2d = (DefaultTableModel) productsTable1.getModel();
+        productsTable2d.setRowCount(0);
+        String[] products3d = {pID.getText(), pType.getText(), pDesc.getText(), supplier.getText(), qty2.getText(), totalCost.getText(), dateReceived.getText()};
+        int row2d = 1;
+        for(int i = 0; i < products3darray.length; i++) {
+            if (pID.getText().equals(products3darray[i][0][0])) {
+                for(int j = 0; j < products3darray[0][0].length; j++) {
+                    products3darray[i][row2d][j] = products3d[j]; //flawed, create new loop that checks if row is empty
+                    
+                }
             }
+            
+        }
+        row2d++;
+            
+        System.out.println(Arrays.deepToString(products3darray));
+        // for table assignment
+        DefaultTableModel productsTable3d = (DefaultTableModel) productsTable2.getModel();
+        productsTable3d.setRowCount(0);
+        for (int i = 0; i < products3darray.length; i++) {
+            for (int j = 0; j < products3darray[0].length; j++) {
+                if (products3darray[i][j][0] != null) {
+                    if (products3darray[i][j][0].equals(pID.getText())) {
+                        productsTable3d.addRow(products3darray[i][j]);
+                    }
+                        
+                }
+            }
+        }
+        
+        int totQty = Integer.parseInt(qty.getText()) + Integer.parseInt(qty2.getText());
+        products2darray[Integer.parseInt(pID.getText())-1][4] = String.valueOf(totQty);
+        for (int i = 0; i < products2darray.length; i++) {
+            if (products2darray[i][0] != null) {
+                productsTable2d.addRow(products2darray[i]);
+            }
+        }
     }//GEN-LAST:event_stockInBtnActionPerformed
 
     private void qty2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qty2ActionPerformed
@@ -344,7 +375,7 @@ public class Products extends javax.swing.JFrame {
     }//GEN-LAST:event_totalCostActionPerformed
 
     private void productsTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTable2MouseClicked
-        int[] selectRow = productsTable2.getSelectedRows(); // array that stores selected row's data
+
     }//GEN-LAST:event_productsTable2MouseClicked
 
     /**
