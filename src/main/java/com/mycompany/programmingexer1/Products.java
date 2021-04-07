@@ -18,9 +18,13 @@ public class Products extends javax.swing.JFrame {
     int prodID;
     
     public String[][][] array3d(String[] info) {
-        
-        String[][][] placeholder = new String[1][1][1];
-        return placeholder;
+        for (int x = 0; x < 10; x++) { 
+            for (int y = 0; y < 7; y++) { 
+                products3darray[prodID][0][y] = info[y];
+            }
+        }
+        prodID++;
+        return products3darray;
     }
     /**
      * Creates new form Products
@@ -295,10 +299,12 @@ public class Products extends javax.swing.JFrame {
                 products3darray[prodID][0][y] = products3d[y];
             }
         }
+        products3darray = array3d(products3d);
+        
         
         System.out.println(Arrays.deepToString(products3darray));
         
-        prodID++;
+        
         pID.setText(String.valueOf(prodID));
     }//GEN-LAST:event_newProdBtnActionPerformed
 
