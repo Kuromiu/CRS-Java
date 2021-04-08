@@ -11,15 +11,12 @@ package com.mycompany.programmingexer1;
  */
 
 public class methodClass {
-    public String[][] Lists2d(String[] info) { //For creating 2d array
-        String[][] products2d = new String[10][5];
-        for (int x = 0; x < 7; x++) { 
-            products2d[Integer.valueOf(info[0])][x] = info[x];
+    Products productsclass = new Products();
+    public String[][][] array3d(String[] info, int idNo, String info2[][][]) {
+        for (int y = 0; y < 7; y++) { 
+            info2[idNo][0][y] = info[y];
         }
-        return products2d;
-    }
-    
-    public void showlist() { //void does not record anything
-        
+        System.out.println(idNo);
+        return info2;
     }
 }

@@ -17,15 +17,6 @@ public class Products extends javax.swing.JFrame {
     String[][][] products3darray = new String[10][10][7];
     int prodID;
     
-    public String[][][] array3d(String[] info) {
-        for (int x = 0; x < 10; x++) { 
-            for (int y = 0; y < 7; y++) { 
-                products3darray[prodID][0][y] = info[y];
-            }
-        }
-        prodID++;
-        return products3darray;
-    }
     /**
      * Creates new form Products
      */
@@ -66,6 +57,12 @@ public class Products extends javax.swing.JFrame {
         productsTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         productsTable2 = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        laborCost = new javax.swing.JTextField();
+        overheadCost = new javax.swing.JTextField();
+        desiredProfit = new javax.swing.JTextField();
 
         jTextField5.setText("jTextField5");
 
@@ -173,17 +170,24 @@ public class Products extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
+        jLabel10.setText("Labor Cost");
+
+        jLabel11.setText("Overhead Cost");
+
+        jLabel12.setText("Desired Profit");
+
+        laborCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                laborCostActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(newProdBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(stockInBtn))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,9 +220,23 @@ public class Products extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(qty2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(qty2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(newProdBtn)
+                            .addComponent(stockInBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(overheadCost)
+                            .addComponent(laborCost)
+                            .addComponent(desiredProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -258,14 +276,26 @@ public class Products extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(dateReceived, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 528, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(newProdBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(stockInBtn)
+                        .addGap(91, 91, 91)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(laborCost)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(overheadCost)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(desiredProfit)
+                            .addComponent(jLabel12))
+                        .addGap(277, 277, 277))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(stockInBtn)
-                    .addComponent(newProdBtn))
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -294,17 +324,17 @@ public class Products extends javax.swing.JFrame {
         String[] products3d = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText(), totalCost.getText(), dateReceived.getText()};
         
         //Assigns the information to the products 3d array
-        for (int x = 0; x < 10; x++) { 
+        /*for (int x = 0; x < 10; x++) { 
             for (int y = 0; y < 7; y++) { 
                 products3darray[prodID][0][y] = products3d[y];
             }
-        }
-        products3darray = array3d(products3d);
-        
+        }*/
+        methodClass methodclass = new methodClass();
+        products3darray = methodclass.array3d(products3d, prodID, products3darray);
         
         System.out.println(Arrays.deepToString(products3darray));
         
-        
+        prodID++;
         pID.setText(String.valueOf(prodID));
     }//GEN-LAST:event_newProdBtnActionPerformed
 
@@ -391,6 +421,10 @@ public class Products extends javax.swing.JFrame {
 
     }//GEN-LAST:event_productsTable2MouseClicked
 
+    private void laborCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laborCostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_laborCostActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -428,7 +462,11 @@ public class Products extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dateReceived;
+    private javax.swing.JTextField desiredProfit;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -441,7 +479,9 @@ public class Products extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField laborCost;
     private javax.swing.JButton newProdBtn;
+    private javax.swing.JTextField overheadCost;
     private javax.swing.JTextField pDesc;
     private javax.swing.JTextField pID;
     private javax.swing.JTextField pType;

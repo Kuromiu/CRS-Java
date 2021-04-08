@@ -334,7 +334,7 @@ public class CustomerForm extends javax.swing.JFrame {
         String[] item = {String.valueOf(currentID), cName.getText(), cAddress.getText(), cContactNo.getText(), cEmail.getText(), cBirthdate.getText(), (String)cGender.getSelectedItem()}; // Gets values from text fields and assigns them to this array
         //Assigns the information to the cust array
         for (int y = 0; y < 7; y++) { 
-            cust[Integer.valueOf(item[0]) - 1][y] = item[y];
+            cust[currentID - 1][y] = item[y];
         }
             
         //Adds customers to table
@@ -345,12 +345,7 @@ public class CustomerForm extends javax.swing.JFrame {
         }
         
         //Prints the cust array
-        for (int i = 0; i < cust.length; i++) {
-            System.out.println("\n");
-            if (cust[i][0] != null) {
-                System.out.println(Arrays.toString(cust[i]));
-            }
-        }
+        System.out.println(Arrays.deepToString(cust));
             
         //Prepares ID field for next entry based on next free ID;
         if (deletedIDs.size() == 0) {
@@ -444,8 +439,6 @@ public class CustomerForm extends javax.swing.JFrame {
             } else {
                 messagebox(rows + " Customers have been deleted.", "Deleted");
             }
-        } else {
-            messagebox("Cannot delete customers unless one or more are selected.", "Select a customer to delete");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
