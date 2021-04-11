@@ -27,10 +27,7 @@ public class Products extends javax.swing.JFrame {
         return info2;
     }
     
-    public String[][] createInvoice(String[][] invoiceClone) { //parameter is needed
-        int costPerOne = (Integer.parseInt(invoiceDump[6])/Integer.parseInt(invoiceDump[5]));// + Integer.parseInt(laborCost.getText()) + Integer.parseInt(overheadCost.getText()) + Integer.parseInt(desiredProfit.getText()); //+labor cost, overhead cost, and desired profit (convert from string to int)
-        invoiceDump[6] = String.valueOf(costPerOne);
-        System.out.println(Arrays.toString(invoiceDump));
+    public String[][] createInvoice(String[][] invoiceClone) {
         for (int i = 1; i < 8; i++) { 
             invoiceClone[invoiceID][i] = invoiceDump[i];
         }
@@ -437,10 +434,12 @@ public class Products extends javax.swing.JFrame {
         invoiceDump[1] = productsTable2.getValueAt(selectRow[0], 0).toString();
         invoiceDump[2] = productsTable2.getValueAt(selectRow[0], 1).toString();
         invoiceDump[3] = productsTable2.getValueAt(selectRow[0], 2).toString();
-        invoiceDump[4] = productsTable2.getValueAt(selectRow[0], 3).toString();
-        invoiceDump[5] = productsTable2.getValueAt(selectRow[0], 4).toString(); //quantity
-        invoiceDump[6] = productsTable2.getValueAt(selectRow[0], 5).toString(); //cost
-        invoiceDump[7] = productsTable2.getValueAt(selectRow[0], 6).toString();
+        invoiceDump[4] = productsTable2.getValueAt(selectRow[0], 4).toString(); //quantity
+        invoiceDump[5] = productsTable2.getValueAt(selectRow[0], 5).toString(); //cost
+        invoiceDump[6] = productsTable2.getValueAt(selectRow[0], 6).toString();
+        int costPerOne = (Integer.parseInt(invoiceDump[5])/Integer.parseInt(invoiceDump[4])) + Integer.parseInt(laborCost.getText()) + Integer.parseInt(overheadCost.getText()) + Integer.parseInt(desiredProfit.getText()); //+labor cost, overhead cost, and desired profit (convert from string to int)
+        invoiceDump[5] = String.valueOf(costPerOne);
+        System.out.println(Arrays.toString(invoiceDump));
     }//GEN-LAST:event_productsTable2MouseClicked
 
     private void laborCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laborCostActionPerformed
