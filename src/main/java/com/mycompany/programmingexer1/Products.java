@@ -16,6 +16,28 @@ public class Products extends javax.swing.JFrame {
     String[][] products2darray = new String[10][5];
     String[][][] products3darray = new String[10][10][7];
     int prodID;
+    static int invoiceID = 0;
+    static String[] invoiceDump = new String[8];
+    
+    public String[][][] array3d(String[] info, int idNo, String info2[][][]) {
+        for (int y = 0; y < 7; y++) { 
+            info2[idNo][0][y] = info[y];
+        }
+        System.out.println(idNo);
+        return info2;
+    }
+    
+    public String[][] createInvoice(String[][] invoiceClone) { //parameter is needed
+        int costPerOne = (Integer.parseInt(invoiceDump[6])/Integer.parseInt(invoiceDump[5]));// + Integer.parseInt(laborCost.getText()) + Integer.parseInt(overheadCost.getText()) + Integer.parseInt(desiredProfit.getText()); //+labor cost, overhead cost, and desired profit (convert from string to int)
+        invoiceDump[6] = String.valueOf(costPerOne);
+        System.out.println(Arrays.toString(invoiceDump));
+        for (int i = 1; i < 8; i++) { 
+            invoiceClone[invoiceID][i] = invoiceDump[i];
+        }
+        invoiceID++;
+        System.out.println(invoiceID);
+        return invoiceClone;
+    }
     
     /**
      * Creates new form Products
@@ -324,15 +346,9 @@ public class Products extends javax.swing.JFrame {
         String[] products3d = {String.valueOf(prodID+1), pType.getText(), pDesc.getText(), supplier.getText(), qty.getText(), totalCost.getText(), dateReceived.getText()};
         
         //Assigns the information to the products 3d array
-        /*for (int x = 0; x < 10; x++) { 
-            for (int y = 0; y < 7; y++) { 
-                products3darray[prodID][0][y] = products3d[y];
-            }
-        }*/
-        methodClass methodclass = new methodClass();
-        products3darray = methodclass.array3d(products3d, prodID, products3darray);
+        products3darray = array3d(products3d, prodID, products3darray);
         
-        System.out.println(Arrays.deepToString(products3darray));
+        //System.out.println(Arrays.deepToString(products3darray));
         
         prodID++;
         pID.setText(String.valueOf(prodID));
@@ -355,7 +371,7 @@ public class Products extends javax.swing.JFrame {
             }
         }
             
-        System.out.println(Arrays.deepToString(products3darray));
+        //System.out.println(Arrays.deepToString(products3darray));
       
         // for table assignment
         DefaultTableModel productsTable3d = (DefaultTableModel) productsTable2.getModel();
@@ -406,8 +422,7 @@ public class Products extends javax.swing.JFrame {
                 if (products3darray[i][j][0] != null) {
                     if (products3darray[i][j][0].equals(pID.getText())) {
                         productsTable3d.addRow(products3darray[i][j]);
-                    }
-                        
+                    }   
                 }
             }
         }
@@ -418,7 +433,14 @@ public class Products extends javax.swing.JFrame {
     }//GEN-LAST:event_totalCostActionPerformed
 
     private void productsTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productsTable2MouseClicked
-
+        int[] selectRow = productsTable2.getSelectedRows(); // array that stores selected row's data
+        invoiceDump[1] = productsTable2.getValueAt(selectRow[0], 0).toString();
+        invoiceDump[2] = productsTable2.getValueAt(selectRow[0], 1).toString();
+        invoiceDump[3] = productsTable2.getValueAt(selectRow[0], 2).toString();
+        invoiceDump[4] = productsTable2.getValueAt(selectRow[0], 3).toString();
+        invoiceDump[5] = productsTable2.getValueAt(selectRow[0], 4).toString(); //quantity
+        invoiceDump[6] = productsTable2.getValueAt(selectRow[0], 5).toString(); //cost
+        invoiceDump[7] = productsTable2.getValueAt(selectRow[0], 6).toString();
     }//GEN-LAST:event_productsTable2MouseClicked
 
     private void laborCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laborCostActionPerformed
